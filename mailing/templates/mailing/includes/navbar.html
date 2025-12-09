@@ -2,14 +2,14 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link active" aria-current="page" href="{% url 'mailing:home' %}">
               <span data-feather="home"></span>
               Главная
             </a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'mailing:message_list' %}">
               <span data-feather="file"></span>
               Сообщения
             </a>

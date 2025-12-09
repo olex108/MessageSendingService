@@ -24,7 +24,6 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "users/user_update.html"
 
     def get_success_url(self):
-        print(1)
         return reverse_lazy("users:user_detail", kwargs={"pk": self.object.pk})
 
 

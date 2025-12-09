@@ -1,0 +1,38 @@
+<!-- message_form.html -->
+{% extends 'mailing/base.html' %}
+
+{% block title %}Message form{% endblock %}
+
+{% block page_name %}
+    {% if object %}
+        <h1>{{ object.title }}</h1>
+    {% else %}
+        <h1>Новое сообщение</h1>
+    {% endif %}
+
+    Сообщения
+{% endblock %}
+
+{% block page_buttons %}
+    <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:message_list' %}">Отменить</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if object %}
+        <h1>Редактирование сообщения</h1>
+    {% else %}
+        <h1>Создание нового сообщения</h1>
+    {% endif %}
+      <form id="myForm" method="post" action="" class="form-floating">
+          {% csrf_token %}
+          {{ form.not_field_errors }}
+          {{ form.as_p }}
+          <div class="btn-group mt-4">
+              <button type="submit" class="p-2 bd-highlight btn btn-sm btn-primary">Сохранить</button>
+          </div>
+      </form>
+
+{% endblock %}
