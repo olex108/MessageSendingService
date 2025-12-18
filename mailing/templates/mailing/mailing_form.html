@@ -1,0 +1,44 @@
+<!-- mailing_form.html -->
+
+{% extends 'mailing/base.html' %}
+
+{% block title %}Mailing form{% endblock %}
+
+{% block page_name %}
+
+    {% if object %}
+        <h1>{{ object.message.title }}</h1>
+    {% else %}
+        <h1>Новая рассылка</h1>
+    {% endif %}
+
+{% endblock %}
+
+{% block page_buttons %}
+    <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_list' %}">Отменить</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if object %}
+        <h1>Редактирование рассылки</h1>
+    {% else %}
+        <h1>Создание новой рассылки</h1>
+    {% endif %}
+      <form id="myForm" method="post" action="" class="bd-example">
+          <fieldset>
+              {% csrf_token %}
+              {{ form.not_field_errors }}
+              {{ form.as_p }}
+              <div class="btn-group mt-4">
+                  <button type="submit" class="p-2 bd-highlight btn btn-sm btn-primary">Сохранить</button>
+              </div>
+          </fieldset>
+      </form>
+
+    <script type="text/javascript" src="/static/js/jquery.slim.min.js"></script>
+    {{ form.media.js }}
+
+{% endblock %}

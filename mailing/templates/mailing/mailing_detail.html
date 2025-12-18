@@ -1,0 +1,47 @@
+<!-- mailing_detail.html -->
+{% extends 'mailing/base.html' %}
+
+{% block title %}Mailing detail{% endblock %}
+
+{% block page_name %}
+    Сообщение {{ mailing.message.title }}
+{% endblock %}
+
+{% block page_buttons %}
+    <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_update' mailing.id %}">Редактировать</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.id %}">Удалить</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <h2>Детали сообщения</h2>
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <tbody>
+              <tr>
+                <td>Тема</td>
+                <td>{{ mailing.message.title }}</td>
+              </tr>
+              <tr>
+                <td>Дата начала</td>
+                <td>{{ mailing.start_at|date:"d M Y" }}</td>
+              </tr>
+              <tr>
+                <td>Дата завершения</td>
+                <td>{{ mailing.end_at|date:"d M Y" }}</td>
+              </tr>
+              <tr>
+                <td>Получатели</td>
+                <td>{{ mailing.recipients.count }}</td>
+              </tr>
+              <tr>
+                <td>Отправитель</td>
+                <td>{{ mailing.message.author }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+{% endblock %}
