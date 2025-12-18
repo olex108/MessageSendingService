@@ -1,0 +1,54 @@
+<!-- recipients_list.html -->
+{% extends 'mailing/base.html' %}
+
+{% block title %}Recipients list{% endblock %}
+
+{% block page_name %}
+    Получатели рассылки
+{% endblock %}
+
+{% block page_buttons %}
+    <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:recipient_create' %}">Добавить</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <h2>Список сообщений</h2>
+    <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Почта</th>
+          <th scope="col">Полное Имя</th>
+
+          <th scope="col">Отправитель</th>
+
+          <th scope="col"></th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for recipient in recipients %}
+
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ recipient.email }}</td>
+              <td>{{ recipient.full_name }}</td>
+
+              <td>{{ recipient.mailer }}</td>
+
+              <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:recipient_detail' recipient.id %}">Открыть</a></td>
+
+            </tr>
+
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}
