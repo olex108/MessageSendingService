@@ -2,8 +2,9 @@ from django import forms
 from PIL import Image
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 
-
 from .models import Message, Recipients, Mailing
+
+from .validators import validate_mailing_end, validate_mailing_start
 
 
 class MessageForm(forms.ModelForm):
@@ -85,10 +86,11 @@ class MailingForm(forms.ModelForm):
             }
         )
 
-        # self.fields["start_at"].widget.attrs.update(
-        #     {
-        #         'type': 'date',
-        #     }
-        # )
+    def clean(self):
 
+        cleaned_data = super().clean()
+        end_at = cleaned_data.get("end_at")
+        start_at = cleaned_data.get("start_at")
 
+        validate_mailing_start(start_at)
+        validate_mailing_end(start_at, end_at)

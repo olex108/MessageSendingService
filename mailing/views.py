@@ -106,7 +106,10 @@ class MailingListView(LoginRequiredMixin, ListView):
     context_object_name = "mailings"
 
     def get_queryset(self):
-        return Mailing.objects.all().filter(message__author=self.request.user).order_by("-start_at")
+        mailings = Mailing.objects.all().filter(message__author=self.request.user).order_by("-start_at")
+        for mailing in mailings:
+            mailing.update_status()
+        return mailings
 
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
@@ -114,6 +117,10 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
     template_name = "mailing/mailing_detail.html"
     context_object_name = "mailing"
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.update_status()
+        return obj
 
 class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
@@ -147,6 +154,20 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
     form_class = MailingForm
     template_name = "mailing/mailing_form.html"
     success_url = reverse_lazy("mailing:mailing_list")
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.update_status()
+        return obj
+
+    def form_valid(self, form):
+        """Update field status of model """
+
+        self.object.status = Mailing.CREATED
+        self.object.update_status()
+        self.object.save()
+
+        return super().form_valid(form)
 
 
 class MailingDeleteView(LoginRequiredMixin, DeleteView):

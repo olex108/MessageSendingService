@@ -2,6 +2,9 @@ from django.db import models
 
 from users.models import User
 
+from datetime import datetime
+from django.utils import timezone
+
 
 class Recipients(models.Model):
     """Model to create, view, update, delete recipient of mailing"""
@@ -59,6 +62,20 @@ class Mailing(models.Model):
 
     def __str__(self):
         return f"{self.message} - {self.status} - {self.start_at} - {self.end_at}"
+
+    def update_status(self):
+
+        if self.status == self.CREATED:
+            if timezone.now() > self.end_at:
+                self.status = self.COMPLETED
+            elif timezone.now() > self.start_at:
+                self.status = self.LAUNCHED
+
+        elif self.status == self.LAUNCHED:
+            if timezone.now() > self.end_at:
+                self.status = self.COMPLETED
+
+        self.save()
 
     class Meta:
         verbose_name = "рассылка"
