@@ -6,9 +6,10 @@ from users.models import User
 class Recipients(models.Model):
     """Model to create, view, update, delete recipient of mailing"""
 
-    email = models.EmailField(verbose_name="Почта", unique=True)
+    email = models.EmailField(verbose_name="Почта")
     full_name = models.CharField(max_length=150, verbose_name="Полное имя получателя")
     comment = models.TextField(verbose_name="Комментарии", blank=True, null=True)
+    mailer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Отправитель")
 
     def __str__(self):
         return f"{self.email} - {self.full_name}"
@@ -50,8 +51,8 @@ class Mailing(models.Model):
         (COMPLETED, "Завершена"),
     )
 
-    start_at = models.DateTimeField(verbose_name="Дата и время первой отправки")
-    end_at = models.EmailField(verbose_name="Дата и время окончания отправки")
+    start_at = models.DateTimeField(verbose_name="Дата и время начала")
+    end_at = models.DateTimeField(verbose_name="Дата и время окончания")
     status = models.CharField(verbose_name="Статус рассылки", max_length=10, choices=STATUS_CHOICES, default=CREATED)
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name="Сообщение")
     recipients = models.ManyToManyField(Recipients, verbose_name="Получатели", blank=True, null=True)

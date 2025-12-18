@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "bootstrap_datepicker_plus",
     "phonenumber_field",
     'widget_tweaks',
 

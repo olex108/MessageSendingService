@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
@@ -9,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Mailing, Recipients, Message
 
-from .forms import MessageForm
+from .forms import MessageForm, RecipientForm, MailingForm
 
 
 class HomeView(TemplateView):
@@ -62,7 +61,96 @@ class MessageDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("mailing:message_list")
 
 
+class RecipientsListView(LoginRequiredMixin, ListView):
+    model = Recipients
+    template_name = "mailing/recipients_list.html"
+    context_object_name = "recipients"
+
+    def get_queryset(self):
+        return Recipients.objects.all().filter(mailer=self.request.user.id).order_by("-full_name")
 
 
+class RecipientDetailView(LoginRequiredMixin, DetailView):
+    model = Recipients
+    template_name = "mailing/recipient_detail.html"
+    context_object_name = "recipient"
 
+
+class RecipientCreateView(LoginRequiredMixin, CreateView):
+    model = Recipients
+    form_class = RecipientForm
+    template_name = "mailing/recipient_form.html"
+    success_url = reverse_lazy("mailing:recipients_list")
+
+    def form_valid(self, form):
+        form.instance.mailer = self.request.user
+        return super().form_valid(form)
+
+
+class RecipientUpdateView(LoginRequiredMixin, UpdateView):
+    model = Recipients
+    form_class = RecipientForm
+    template_name = "mailing/recipient_form.html"
+    success_url = reverse_lazy("mailing:recipients_list")
+
+
+class RecipientDeleteView(LoginRequiredMixin, DeleteView):
+    model = Recipients
+    template_name = "mailing/recipient_delete.html"
+    success_url = reverse_lazy("mailing:recipients_list")
+
+
+class MailingListView(LoginRequiredMixin, ListView):
+    model = Mailing
+    template_name = "mailing/mailing_list.html"
+    context_object_name = "mailings"
+
+    def get_queryset(self):
+        return Mailing.objects.all().filter(message__author=self.request.user).order_by("-start_at")
+
+
+class MailingDetailView(LoginRequiredMixin, DetailView):
+    model = Mailing
+    template_name = "mailing/mailing_detail.html"
+    context_object_name = "mailing"
+
+
+class MailingCreateView(LoginRequiredMixin, CreateView):
+    model = Mailing
+    form_class = MailingForm
+    template_name = "mailing/mailing_form.html"
+    success_url = reverse_lazy("mailing:mailing_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["recipients"] = Recipients.objects.all().filter(mailer=self.request.user.id).order_by("-full_name")
+        return context
+
+    def form_valid(self, form):
+        """Add data to field mailer - user and recipients - recipients of user"""
+
+        form.instance.mailer = self.request.user
+        response = super().form_valid(form)
+        form.instance.recipients.set(Recipients.objects.all().filter(mailer=self.request.user.id).order_by("-full_name"))
+        return response
+
+    def form_invalid(self, form):
+
+        print(form.errors)
+        response = super().form_invalid(form)
+        response.context_data["error_message"] = "Please correct the errors below."
+        return response
+
+
+class MailingUpdateView(LoginRequiredMixin, UpdateView):
+    model = Mailing
+    form_class = MailingForm
+    template_name = "mailing/mailing_form.html"
+    success_url = reverse_lazy("mailing:mailing_list")
+
+
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
+    model = Mailing
+    template_name = "mailing/mailing_delete.html"
+    success_url = reverse_lazy("mailing:mailing_list")
 

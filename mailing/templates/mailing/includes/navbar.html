@@ -15,7 +15,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'mailing:recipients_list' %}">
               <span data-feather="users"></span>
               Получатели
             </a>
@@ -27,9 +27,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'mailing:mailing_list' %}">
               <span data-feather="layers"></span>
               Рассылки
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mailing:mailing_list' %}">
+              <span data-feather="layers"></span>
+              Попытки рассылок
             </a>
           </li>
         </ul>
