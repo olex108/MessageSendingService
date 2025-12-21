@@ -122,6 +122,7 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
         obj.update_status()
         return obj
 
+
 class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     form_class = MailingForm
@@ -138,7 +139,9 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
         form.instance.mailer = self.request.user
         response = super().form_valid(form)
-        form.instance.recipients.set(Recipients.objects.all().filter(mailer=self.request.user.id).order_by("-full_name"))
+        form.instance.recipients.set(
+            Recipients.objects.all().filter(mailer=self.request.user.id).order_by("-full_name")
+        )
         return response
 
     def form_invalid(self, form):
@@ -161,7 +164,7 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
         return obj
 
     def form_valid(self, form):
-        """Update field status of model """
+        """Update field status of model"""
 
         self.object.status = Mailing.CREATED
         self.object.update_status()
@@ -174,4 +177,3 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     template_name = "mailing/mailing_delete.html"
     success_url = reverse_lazy("mailing:mailing_list")
-

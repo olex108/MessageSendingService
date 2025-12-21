@@ -1,10 +1,9 @@
 from django import forms
-from PIL import Image
-from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 from .models import Message, Recipients, Mailing
 
-from .validators import validate_mailing_end, validate_mailing_start
+from mailing.src.validators import validate_mailing_end, validate_mailing_start
 
 
 class MessageForm(forms.ModelForm):
@@ -28,6 +27,7 @@ class MessageForm(forms.ModelForm):
                 "placeholder": "Сообщение",
             }
         )
+
 
 class RecipientForm(forms.ModelForm):
 
@@ -58,6 +58,7 @@ class RecipientForm(forms.ModelForm):
             }
         )
 
+
 class MailingForm(forms.ModelForm):
 
     class Meta:
@@ -65,15 +66,12 @@ class MailingForm(forms.ModelForm):
         exclude = ["status", "recipients"]
         widgets = {
             "start_at": DateTimePickerInput(
-                options={"format": "DD/MM/YYYY, HH:mm", "showTodayButton": True},
-                attrs={'class': 'form-control'}
+                options={"format": "DD/MM/YYYY, HH:mm", "showTodayButton": True}, attrs={"class": "form-control"}
             ),
             "end_at": DateTimePickerInput(
-                options={"format": "DD/MM/YYYY, HH:mm", "showTodayButton": True},
-                attrs={'class': 'form-control'}
+                options={"format": "DD/MM/YYYY, HH:mm", "showTodayButton": True}, attrs={"class": "form-control"}
             ),
         }
-
 
     def __init__(self, *args, **kwargs):
 
