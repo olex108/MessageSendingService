@@ -14,7 +14,7 @@ class MailingHandler(ABC):
     """
 
     @abstractmethod
-    def send_mails(self) -> None: ...
+    def send_mails(self) -> bool: ...
 
     @abstractmethod
     def _create_mailing_attempt_object(self, status: str, server_response: str) -> None: ...
@@ -30,7 +30,7 @@ class SMTPMailingHandler(MailingHandler):
     def __init__(self, mailing: Mailing) -> None:
         self.mailing = mailing
 
-    def send_mails(self) -> None:
+    def send_mails(self) -> bool:
         """
         Sends emails via SMTP server.
         """
@@ -42,12 +42,13 @@ class SMTPMailingHandler(MailingHandler):
 
         try:
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-
             self._create_mailing_attempt_object(status=MailingAttempt.SUCCESS)
             self._change_mailing_status(Mailing.COMPLETED)
+            return True
 
         except Exception as e:
             self._create_mailing_attempt_object(status=MailingAttempt.FAILED, server_response=str(e))
+            return False
 
     def _create_mailing_attempt_object(self, status: str, server_response: str = "Успешно") -> None:
         """

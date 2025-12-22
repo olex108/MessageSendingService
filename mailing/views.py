@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
@@ -9,6 +10,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Mailing, Recipients, Message
 
 from .forms import MessageForm, RecipientForm, MailingForm
+
+from .src.mailing_handlers import SMTPMailingHandler
 
 
 class HomeView(TemplateView):
@@ -121,6 +124,39 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
         obj = super().get_object(queryset)
         obj.update_status()
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mailing_item = self.object
+        if mailing_item.status == Mailing.LAUNCHED and mailing_item.message.author == self.request.user:
+            context["start_mailing"] = True
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+
+        self.object = self.get_object()
+
+        mailing_item = self.object
+
+        if mailing_item.status == Mailing.LAUNCHED and mailing_item.message.author == self.request.user:
+            mailing = self.object
+            mailing_sending = SMTPMailingHandler(mailing)
+            mailing_result = mailing_sending.send_mails()
+
+            status_message = "Рассылка запущена успешно" if mailing_result else "Ошибка рассылки"
+
+            return JsonResponse({
+                "status": "success",
+                "message": status_message,
+            })
+        else:
+            return JsonResponse({
+                "status": "error",
+                "message": "Нет права запускать рассылку",
+            })
+
+
 
 
 class MailingCreateView(LoginRequiredMixin, CreateView):

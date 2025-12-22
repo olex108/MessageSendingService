@@ -31,7 +31,11 @@ class Command(BaseCommand):
                 try:
                     if int(mailing_num) - 1 in range(mailing_counter):
                         mailing_sending = SMTPMailingHandler(mailing_launched_list[int(mailing_num) - 1])
-                        mailing_sending.send_mails()
+                        result = mailing_sending.send_mails()
+                        if result:
+                            print("Рассылка запущена успешно")
+                        else:
+                            print("Ошибка рассылки")
                         break
                     else:
                         print("Неверный номер рассылки")
