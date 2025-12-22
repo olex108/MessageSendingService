@@ -1,11 +1,10 @@
+import os
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 from django.core.mail import send_mail
 
 from mailing.models import Mailing, MailingAttempt
-
-import os
-from datetime import datetime
 
 
 class MailingHandler(ABC):

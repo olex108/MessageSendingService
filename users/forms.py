@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.forms import ModelForm
 
 from .models import User
@@ -112,3 +112,12 @@ class CustomChangePasswordForm(PasswordChangeForm):
     new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
     new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
 
+class CustomPasswordResetForm(PasswordResetForm):
+
+    email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "form-control"}))
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))

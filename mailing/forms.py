@@ -1,9 +1,9 @@
-from django import forms
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
-
-from .models import Message, Recipients, Mailing
+from django import forms
 
 from mailing.src.validators import validate_mailing_end, validate_mailing_start
+
+from .models import Mailing, Message, Recipients
 
 
 class MessageForm(forms.ModelForm):

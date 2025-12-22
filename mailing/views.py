@@ -1,16 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from .models import Mailing, Recipients, Message
-
-from .forms import MessageForm, RecipientForm, MailingForm
-
+from .forms import MailingForm, MessageForm, RecipientForm
+from .models import Mailing, Message, Recipients
 from .src.mailing_handlers import SMTPMailingHandler
 
 
@@ -132,7 +129,6 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
             context["start_mailing"] = True
         return context
 
-
     def post(self, request, *args, **kwargs):
 
         self.object = self.get_object()
@@ -146,17 +142,19 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
 
             status_message = "Рассылка запущена успешно" if mailing_result else "Ошибка рассылки"
 
-            return JsonResponse({
-                "status": "success",
-                "message": status_message,
-            })
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "message": status_message,
+                }
+            )
         else:
-            return JsonResponse({
-                "status": "error",
-                "message": "Нет права запускать рассылку",
-            })
-
-
+            return JsonResponse(
+                {
+                    "status": "error",
+                    "message": "Нет права запускать рассылку",
+                }
+            )
 
 
 class MailingCreateView(LoginRequiredMixin, CreateView):
