@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.forms import ModelForm
 
 from .models import User
@@ -104,3 +104,11 @@ class CustomAuthenticationForm(AuthenticationForm):
 
     username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+
+
+class CustomChangePasswordForm(PasswordChangeForm):
+
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+

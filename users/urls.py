@@ -1,8 +1,8 @@
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import path
 
 from . import views
-from .forms import CustomAuthenticationForm
+from .forms import CustomAuthenticationForm, CustomChangePasswordForm
 
 app_name = "users"
 
@@ -17,4 +17,12 @@ urlpatterns = [
     path("users/email_confirm/<str:token>/", views.email_verification, name="email_confirm"),
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
     path("users/<int:pk>/update/", views.UserUpdateView.as_view(), name="user_update"),
+    path(
+        "users/<int:pk>/password_change/",
+        PasswordChangeView.as_view(
+            template_name="users/password_change.html",
+            form_class=CustomChangePasswordForm
+        ),
+        name="user_password_change"
+    ),
 ]
