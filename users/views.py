@@ -2,12 +2,13 @@ import secrets
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
-from .forms import UserRegistrationForm, UserUpdateForm
+from .forms import UserRegistrationForm, UserUpdateForm, CustomChangePasswordForm
 from .models import User
 from .services import send_welcome_email
 
@@ -16,6 +17,14 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     context_object_name = "user"
     template_name = "users/user_detail.html"
+
+
+class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    form_class = CustomChangePasswordForm
+    template_name = "users/password_change.html"
+
+    def get_success_url(self):
+        return reverse_lazy("users:user_detail", kwargs={"pk": self.request.user.id})
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
