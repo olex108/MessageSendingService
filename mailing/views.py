@@ -7,8 +7,10 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from .forms import MailingForm, MessageForm, RecipientForm
-from .models import Mailing, Message, Recipients
+from .models import Mailing, Message, Recipients, MailingAttempt
 from .src.mailing_handlers import SMTPMailingHandler
+
+from django.db.models import Count
 
 
 class HomeView(TemplateView):
@@ -16,9 +18,12 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Recipients_count"] = Recipients.objects.all().count()
-        context["Mailings_count"] = Mailing.objects.all().count()
-        context["Mailings_active_count"] = Mailing.objects.all().filter(status="LAUNCHED").count()
+        context["Recipients_count"] = Recipients.objects.all().filter(mailer=self.request.user.id).count()
+        context["Mailings_count"] = Mailing.objects.all().filter(message__author=self.request.user).count()
+        context["Mailings_active_count"] = Mailing.objects.all().filter(
+            message__author=self.request.user,
+            status="LAUNCHED"
+        ).count()
         return context
 
 
@@ -211,3 +216,38 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     template_name = "mailing/mailing_delete.html"
     success_url = reverse_lazy("mailing:mailing_list")
+
+
+class StatisticsView(LoginRequiredMixin, TemplateView):
+    template_name = "mailing/statistics.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_mailing_attempts_qs = MailingAttempt.objects.all().filter(mailing__message__author=self.request.user)
+        user_success_mailing_attempts = user_mailing_attempts_qs.filter(status="SUCCESS")
+        print(user_success_mailing_attempts)
+        context["Success_count"] = user_success_mailing_attempts.count()
+        context["Failed_count"] = user_mailing_attempts_qs.filter(status="FAILED").count()
+        context["Recipients_count"] = user_success_mailing_attempts.aggregate(total=Count('mailing__recipients'))['total']
+        return context
+
+
+class StatisticsSuccessView(LoginRequiredMixin, ListView):
+    model = MailingAttempt
+    template_name = "mailing/statistics_success.html"
+    context_object_name = "mailing_attempts"
+
+    def get_queryset(self):
+        return MailingAttempt.objects.all().filter(mailing__message__author=self.request.user,
+                                                   status="SUCCESS").order_by("-attempt_at")
+
+
+class StatisticsFailedView(LoginRequiredMixin, ListView):
+    model = MailingAttempt
+    template_name = "mailing/statistics_failed.html"
+    context_object_name = "mailing_attempts"
+
+    def get_queryset(self):
+        return MailingAttempt.objects.all().filter(mailing__message__author=self.request.user,
+                                                   status="FAILED").order_by("-attempt_at")
+
