@@ -4,13 +4,15 @@
 {% block title %}Message detail{% endblock %}
 
 {% block page_name %}
-    Сообщение {{ message.title }}
+    Сообщение "{{ message.title }}"
 {% endblock %}
 
 {% block page_buttons %}
     <div class="btn-group me-2">
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:message_update' message.id %}">Редактировать</a>
-        <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:message_delete' message.id %}">Удалить</a>
+        {% if request.user == message.author %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:message_update' message.id %}">Редактировать</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:message_delete' message.id %}">Удалить</a>
+        {% endif %}
     </div>
 {% endblock %}
 

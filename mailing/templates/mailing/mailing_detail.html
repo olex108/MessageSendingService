@@ -9,8 +9,13 @@
 
 {% block page_buttons %}
     <div class="btn-group me-2">
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_update' mailing.id %}">Редактировать</a>
-        <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.id %}">Удалить</a>
+        {% if request.user == mailing.message.author %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_update' mailing.id %}">Редактировать</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.id %}">Удалить</a>
+        {% endif %}
+        {% if 'mailing.can_disabling_mailing' in perms %}
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.id %}">Заблокировать</a>
+        {% endif %}
     </div>
 {% endblock %}
 

@@ -9,7 +9,9 @@
 
 {% block page_buttons %}
     <div class="btn-group me-2">
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:recipient_create' %}">Добавить</a>
+        {% if 'mailing.add_recipients' in perms %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:recipient_create' %}">Добавить</a>
+        {% endif %}
     </div>
 {% endblock %}
 

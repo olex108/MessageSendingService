@@ -68,9 +68,9 @@ class Command(BaseCommand):
         user_group = Group.objects.create(name="Пользователь")
         user_group.save()
         user_group.permissions.clear()
-        user_group.permissions.add(add_recipients, change_recipients, delete_recipients, view_recipients, add_message,
-                                   change_message, delete_message, view_message, add_mailing, change_mailing,
-                                   delete_mailing, view_mailing, can_send_mailing, can_disabling_mailing)
+        user_group.permissions.add(add_recipients, change_recipients, delete_recipients, add_message,
+                                   change_message, delete_message, add_mailing, change_mailing,
+                                   delete_mailing, can_send_mailing, can_disabling_mailing)
 
         manager_group = Group.objects.create(name="Менеджер")
         manager_group.save()

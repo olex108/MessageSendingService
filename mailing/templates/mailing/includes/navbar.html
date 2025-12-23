@@ -74,10 +74,15 @@
         </ul>
         <hr class="my-3">
         <ul class="nav flex-column">
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'users:user_detail' user.id %}">
               <span data-feather="user"></span>
-              Пользователь
+              {% if "Менеджер" in request.user.groups.all|join:"," %}
+                Менеджер
+              {% else %}
+                Пользователь
+              {% endif %}
             </a>
           </li>
         </ul>

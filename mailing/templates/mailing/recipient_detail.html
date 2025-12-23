@@ -9,8 +9,10 @@
 
 {% block page_buttons %}
     <div class="btn-group me-2">
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:recipient_update' recipient.id %}">Редактировать</a>
-        <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:recipient_delete' recipient.id %}">Удалить</a>
+        {% if request.user == recipient.mailer %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:recipient_update' recipient.id %}">Редактировать</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:recipient_delete' recipient.id %}">Удалить</a>
+        {% endif %}
     </div>
 {% endblock %}
 
