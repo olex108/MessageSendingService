@@ -56,7 +56,7 @@ class Mailing(models.Model):
     end_at = models.DateTimeField(verbose_name="Дата и время окончания")
     status = models.CharField(verbose_name="Статус рассылки", max_length=10, choices=STATUS_CHOICES, default=CREATED)
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name="Сообщение")
-    recipients = models.ManyToManyField(Recipients, verbose_name="Получатели", blank=True, null=True)
+    recipients = models.ManyToManyField(Recipients, verbose_name="Получатели", blank=True)
 
     def __str__(self):
         return f"{self.message} - {self.status} - {self.start_at} - {self.end_at}"
@@ -79,6 +79,11 @@ class Mailing(models.Model):
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
         ordering = ["start_at"]
+
+        permissions = [
+            ("can_send_mailing", "Can send mailing"),
+            ("can_disabling_mailing", "Can disabling mailing"),
+        ]
 
 
 class MailingAttempt(models.Model):

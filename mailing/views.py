@@ -8,26 +8,29 @@ from django.views.generic.list import ListView
 
 from .forms import MailingForm, MessageForm, RecipientForm
 from .models import Mailing, Message, Recipients, MailingAttempt
-from .src.mailing_handlers import SMTPMailingHandler
 
-from django.db.models import Count
+from .services import MailingServices
 
 
 class HomeView(TemplateView):
+    """CBV for home page"""
+
     template_name = "mailing/home.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Recipients_count"] = Recipients.objects.all().filter(mailer=self.request.user.id).count()
-        context["Mailings_count"] = Mailing.objects.all().filter(message__author=self.request.user).count()
-        context["Mailings_active_count"] = Mailing.objects.all().filter(
-            message__author=self.request.user,
-            status="LAUNCHED"
-        ).count()
+
+        try:
+            context = MailingServices.get_homa_page_data(context, self.request.user)
+        except TypeError:
+            pass
+
         return context
 
 
 class MessageListView(LoginRequiredMixin, ListView):
+    """CBV for message list"""
+
     model = Message
     template_name = "mailing/message_list.html"
     context_object_name = "messages"
@@ -37,12 +40,16 @@ class MessageListView(LoginRequiredMixin, ListView):
 
 
 class MessageDetailView(LoginRequiredMixin, DetailView):
+    """CBV for message detail"""
+
     model = Message
     template_name = "mailing/message_detail.html"
     context_object_name = "message"
 
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
+    """CBV for message creation"""
+
     model = Message
     form_class = MessageForm
     template_name = "mailing/message_form.html"
@@ -54,6 +61,8 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
 
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
+    """CBV for message update"""
+
     model = Message
     form_class = MessageForm
     template_name = "mailing/message_form.html"
@@ -61,12 +70,16 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class MessageDeleteView(LoginRequiredMixin, DeleteView):
+    """CBV for message deletion"""
+
     model = Message
     template_name = "mailing/message_delete.html"
     success_url = reverse_lazy("mailing:message_list")
 
 
 class RecipientsListView(LoginRequiredMixin, ListView):
+    """CBV for recipient list"""
+
     model = Recipients
     template_name = "mailing/recipients_list.html"
     context_object_name = "recipients"
@@ -76,12 +89,16 @@ class RecipientsListView(LoginRequiredMixin, ListView):
 
 
 class RecipientDetailView(LoginRequiredMixin, DetailView):
+    """CBV for recipient detail"""
+
     model = Recipients
     template_name = "mailing/recipient_detail.html"
     context_object_name = "recipient"
 
 
 class RecipientCreateView(LoginRequiredMixin, CreateView):
+    """CBV for recipient creation"""
+
     model = Recipients
     form_class = RecipientForm
     template_name = "mailing/recipient_form.html"
@@ -93,6 +110,8 @@ class RecipientCreateView(LoginRequiredMixin, CreateView):
 
 
 class RecipientUpdateView(LoginRequiredMixin, UpdateView):
+    """CBV for recipient update"""
+
     model = Recipients
     form_class = RecipientForm
     template_name = "mailing/recipient_form.html"
@@ -100,17 +119,23 @@ class RecipientUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class RecipientDeleteView(LoginRequiredMixin, DeleteView):
+    """CBV for recipient deletion"""
+
     model = Recipients
     template_name = "mailing/recipient_delete.html"
     success_url = reverse_lazy("mailing:recipients_list")
 
 
 class MailingListView(LoginRequiredMixin, ListView):
+    """CBV for mailing list"""
+
     model = Mailing
     template_name = "mailing/mailing_list.html"
     context_object_name = "mailings"
 
     def get_queryset(self):
+        """Method to get user mailing list. and update satus of user mailings"""
+
         mailings = Mailing.objects.all().filter(message__author=self.request.user).order_by("-start_at")
         for mailing in mailings:
             mailing.update_status()
@@ -118,6 +143,8 @@ class MailingListView(LoginRequiredMixin, ListView):
 
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
+    """CBV for mailing detail"""
+
     model = Mailing
     template_name = "mailing/mailing_detail.html"
     context_object_name = "mailing"
@@ -141,12 +168,7 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
         mailing_item = self.object
 
         if mailing_item.status == Mailing.LAUNCHED and mailing_item.message.author == self.request.user:
-            mailing = self.object
-            mailing_sending = SMTPMailingHandler(mailing)
-            mailing_result = mailing_sending.send_mails()
-
-            status_message = "Рассылка запущена успешно" if mailing_result else "Ошибка рассылки"
-
+            status_message = MailingServices.start_mailing(mailing_item)
             return JsonResponse(
                 {
                     "status": "success",
@@ -163,6 +185,8 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
 
 
 class MailingCreateView(LoginRequiredMixin, CreateView):
+    """CBV for mailing creation"""
+
     model = Mailing
     form_class = MailingForm
     template_name = "mailing/mailing_form.html"
@@ -192,18 +216,26 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
 
 class MailingUpdateView(LoginRequiredMixin, UpdateView):
+    """CBV for mailing update"""
+
     model = Mailing
     form_class = MailingForm
     template_name = "mailing/mailing_form.html"
     success_url = reverse_lazy("mailing:mailing_list")
 
     def get_object(self, queryset=None):
+        """
+        Method update to change status of mailing
+        """
+
         obj = super().get_object(queryset)
         obj.update_status()
         return obj
 
     def form_valid(self, form):
-        """Update field status of model"""
+        """
+        Update field status of model
+        """
 
         self.object.status = Mailing.CREATED
         self.object.update_status()
@@ -213,26 +245,27 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class MailingDeleteView(LoginRequiredMixin, DeleteView):
+    """CBV for mailing delete"""
+
     model = Mailing
     template_name = "mailing/mailing_delete.html"
     success_url = reverse_lazy("mailing:mailing_list")
 
 
 class StatisticsView(LoginRequiredMixin, TemplateView):
+    """CBV for mailing statistics"""
+
     template_name = "mailing/statistics.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_mailing_attempts_qs = MailingAttempt.objects.all().filter(mailing__message__author=self.request.user)
-        user_success_mailing_attempts = user_mailing_attempts_qs.filter(status="SUCCESS")
-        print(user_success_mailing_attempts)
-        context["Success_count"] = user_success_mailing_attempts.count()
-        context["Failed_count"] = user_mailing_attempts_qs.filter(status="FAILED").count()
-        context["Recipients_count"] = user_success_mailing_attempts.aggregate(total=Count('mailing__recipients'))['total']
+        context = MailingServices.get_statistics(context, user=self.request.user)
         return context
 
 
 class StatisticsSuccessView(LoginRequiredMixin, ListView):
+    """CBV for mailing statistics"""
+
     model = MailingAttempt
     template_name = "mailing/statistics_success.html"
     context_object_name = "mailing_attempts"
@@ -243,6 +276,8 @@ class StatisticsSuccessView(LoginRequiredMixin, ListView):
 
 
 class StatisticsFailedView(LoginRequiredMixin, ListView):
+    """CBV for mailing statistics"""
+
     model = MailingAttempt
     template_name = "mailing/statistics_failed.html"
     context_object_name = "mailing_attempts"
@@ -250,4 +285,3 @@ class StatisticsFailedView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return MailingAttempt.objects.all().filter(mailing__message__author=self.request.user,
                                                    status="FAILED").order_by("-attempt_at")
-

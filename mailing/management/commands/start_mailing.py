@@ -1,7 +1,11 @@
 from django.core.management.base import BaseCommand
 
-from mailing.models import Mailing
+from mailing.models import Mailing, MailingAttempt
+
 from mailing.src.mailing_handlers import SMTPMailingHandler
+from mailing.src.mailing_attempt_log import DBMailingAttemptSaver
+
+from mailing.services import MailingServices
 
 
 class Command(BaseCommand):
@@ -27,15 +31,14 @@ class Command(BaseCommand):
         else:
             while True:
                 mailing_num = input("Введите номер рассылки для запуска: ")
+
                 try:
                     if int(mailing_num) - 1 in range(mailing_counter):
-                        mailing_sending = SMTPMailingHandler(mailing_launched_list[int(mailing_num) - 1])
-                        result = mailing_sending.send_mails()
-                        if result:
-                            print("Рассылка запущена успешно")
-                        else:
-                            print("Ошибка рассылки")
+
+                        result = MailingServices.start_mailing(mailing_launched_list[int(mailing_num) - 1])
+                        print(result)
                         break
+
                     else:
                         print("Неверный номер рассылки")
                 except ValueError:

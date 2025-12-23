@@ -6,7 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 class User(AbstractUser):
     """Model of user representing with field email for authentication of user"""
 
-    users = None
+    username = None
     email = models.EmailField(unique=True, verbose_name="Почта")
     country = models.CharField(max_length=30, verbose_name="Название страны")
     phone = PhoneNumberField(verbose_name="Телефон", null=True, blank=True)
@@ -17,7 +17,7 @@ class User(AbstractUser):
     token = models.CharField(max_length=100, verbose_name="Token", blank=True, null=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username', ]
 
     def __str__(self):
         return f"{self.email}"

@@ -13,10 +13,10 @@ class MailingHandler(ABC):
     """
 
     @abstractmethod
-    def send_mails(self) -> bool: ...
+    def send_mails(self) -> str: ...
 
     @abstractmethod
-    def _create_mailing_attempt_object(self, status: str, server_response: str) -> None: ...
+    def __change_mailing_status(self, status: str) -> None: ...
 
 
 class SMTPMailingHandler(MailingHandler):
@@ -29,9 +29,9 @@ class SMTPMailingHandler(MailingHandler):
     def __init__(self, mailing: Mailing) -> None:
         self.mailing = mailing
 
-    def send_mails(self) -> bool:
+    def send_mails(self) -> str:
         """
-        Sends emails via SMTP server.
+        Sends emails via SMTP server. Return "Success" if sent successfully or response of server if failed."
         """
 
         subject = self.mailing.message.title
@@ -41,27 +41,12 @@ class SMTPMailingHandler(MailingHandler):
 
         try:
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-            self._create_mailing_attempt_object(status=MailingAttempt.SUCCESS)
-            self._change_mailing_status(Mailing.COMPLETED)
-            return True
-
+            self.__change_mailing_status(Mailing.COMPLETED)
+            return "SUCCESS"
         except Exception as e:
-            self._create_mailing_attempt_object(status=MailingAttempt.FAILED, server_response=str(e))
-            return False
+            return str(e)
 
-    def _create_mailing_attempt_object(self, status: str, server_response: str = "Успешно") -> None:
-        """
-        Creates Mailing Attempt object with results of sending mails via SMTP server.
-        """
-
-        MailingAttempt.objects.create(
-            attempt_at=datetime.now(),
-            mailing=self.mailing,
-            status=status,
-            response=server_response,
-        )
-
-    def _change_mailing_status(self, status: str) -> None:
+    def __change_mailing_status(self, status: str) -> None:
         """
         Changes Mailing status by COMPLETED
         """
