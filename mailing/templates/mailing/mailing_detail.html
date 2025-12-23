@@ -4,7 +4,7 @@
 {% block title %}Mailing detail{% endblock %}
 
 {% block page_name %}
-    Сообщение {{ mailing.message.title }}
+    Рассылка "{{ mailing.message.title }}" {% if mailing.is_disabled == True %}<span class="badge bg-danger rounded-pill">Заблокировано</span>{% endif %}
 {% endblock %}
 
 {% block page_buttons %}
@@ -14,7 +14,10 @@
             <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.id %}">Удалить</a>
         {% endif %}
         {% if 'mailing.can_disabling_mailing' in perms %}
-            <a class="btn btn-sm btn-outline-danger" href="{% url 'mailing:mailing_delete' mailing.id %}">Заблокировать</a>
+            <form action="{% url 'mailing:mailing_disable' mailing.id %}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-sm btn-outline-{% if mailing.is_disabled == False %}danger{% else %}primary{% endif %}" type="submit">{% if mailing.is_disabled == False %}Заблокировать{% else %}Разблокировать{% endif %}</button>
+            </form>
         {% endif %}
     </div>
 {% endblock %}

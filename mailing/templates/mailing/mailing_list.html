@@ -31,6 +31,7 @@
           <th scope="col">Отправитель</th>
 
           <th scope="col"></th>
+          <th scope="col"></th>
 
         </tr>
       </thead>
@@ -50,6 +51,8 @@
                   <td>{{ mailing.message.author }}</td>
 
                   <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_detail' mailing.id %}">Открыть</a></td>
+
+                  <td>{% if mailing.is_disabled == True %}<span class="badge bg-danger rounded-pill">Заблокировано</span>{% endif %}</td>
 
                 </tr>
 
@@ -75,6 +78,7 @@
           <th scope="col">Отправитель</th>
 
           <th scope="col"></th>
+          <th scope="col"></th>
 
         </tr>
       </thead>
@@ -94,6 +98,8 @@
                   <td>{{ mailing.message.author }}</td>
 
                   <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_detail' mailing.id %}">Открыть</a></td>
+
+                  <td>{% if mailing.is_disabled == True %}<span class="badge bg-danger rounded-pill">Заблокировано</span>{% endif %}</td>
 
                 </tr>
 
@@ -119,6 +125,7 @@
           <th scope="col">Отправитель</th>
 
           <th scope="col"></th>
+          <th scope="col"></th>
 
         </tr>
       </thead>
@@ -138,6 +145,8 @@
                   <td>{{ mailing.message.author }}</td>
 
                   <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_detail' mailing.id %}">Открыть</a></td>
+
+                  <td>{% if mailing.is_disabled == True %}<span class="badge bg-danger rounded-pill">Заблокировано</span>{% endif %}</td>
 
                 </tr>
 

@@ -8,21 +8,12 @@
 {% endblock %}
 
 {% block page_buttons %}
-    <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-    </div>
-    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-    </button>
+
 {% endblock %}
 
 
 {% block content %}
     {% if user.is_authenticated %}
-
-        {% include 'mailing/includes/canvas.html' %}
 
         <h2>Информация по рассылкам</h2>
           <div class="table-responsive">

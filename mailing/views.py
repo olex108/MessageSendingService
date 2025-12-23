@@ -4,13 +4,16 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+from django.views.generic.list import ListView, View
 
 from .forms import MailingForm, MessageForm, RecipientForm
 from .models import Mailing, Message, Recipients, MailingAttempt
 
 from django.shortcuts import redirect
 from .services import MailingServices
+
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, redirect
 
 
 class HomeView(TemplateView):
@@ -319,6 +322,27 @@ class MailingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return redirect("mailing:mailing_detail", pk=self.kwargs["pk"])
+
+
+class MailingDisableView(LoginRequiredMixin, UserPassesTestMixin, View):
+    """CBV for mailing disable"""
+
+    def post(self, request, pk : int = None):
+        mailing = get_object_or_404(Mailing, id=pk)
+
+        if not request.user.has_perm('mailing.can_disabling_mailing'):
+            return HttpResponseForbidden("У вас нет прав для блокировки рассылку")
+
+        mailing.is_disabled = False if mailing.is_disabled else True
+        mailing.save()
+
+        return redirect('mailing:mailing_detail', pk=pk)
+
+    def test_func(self):
+        return self.request.user.has_perm("mailing.can_disabling_mailing")
+
+    def handle_no_permission(self):
+        return redirect("mailing:mailing_list")
 
 
 class StatisticsView(LoginRequiredMixin, TemplateView):

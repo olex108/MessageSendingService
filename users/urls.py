@@ -49,5 +49,7 @@ urlpatterns = [
         "users/password_reset_complete/", PasswordResetCompleteView.as_view(
             template_name="users/password_reset_complete.html"
         ), name="password_reset_complete"
-    )
+    ),
+    path("users/", views.UsersListView.as_view(), name="users_list"),
+    path("user/<int:pk>/deactivate", views.UserDeactivateView.as_view(), name="user_deactivate"),
 ]

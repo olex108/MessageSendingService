@@ -1,16 +1,50 @@
 import secrets
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseForbidden
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView, View
 from django.views.generic.edit import CreateView, UpdateView
 
 from .forms import UserRegistrationForm, UserUpdateForm, CustomChangePasswordForm, CustomPasswordResetForm, CustomSetPasswordForm
 from .models import User
 from .services import send_welcome_email
+
+
+class UsersListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """CBV for users list"""
+
+    model = User
+    context_object_name = "users"
+    template_name = "users/users_list.html"
+
+    def get_queryset(self):
+        return User.objects.all().filter(groups__name="Пользователь")
+
+    def test_func(self):
+        return self.request.user.has_perm("users.can_deactivate_user")
+
+    def handle_no_permission(self):
+        return redirect("mailing:home")
+
+
+class UserDeactivateView(LoginRequiredMixin, View):
+    """CBV for deactivate user"""
+
+    def post(self, request, pk : int = None):
+        user = get_object_or_404(User, id=pk)
+
+        if not request.user.has_perm('users.can_deactivate_user'):
+            return HttpResponseForbidden("У вас нет прав для блокировки пользователя")
+
+        user.is_active = False if user.is_active else True
+        user.save()
+
+        return redirect('users:users_list')
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
