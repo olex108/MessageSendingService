@@ -57,6 +57,7 @@ class Mailing(models.Model):
     status = models.CharField(verbose_name="Статус рассылки", max_length=10, choices=STATUS_CHOICES, default=CREATED)
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name="Сообщение")
     recipients = models.ManyToManyField(Recipients, verbose_name="Получатели", blank=True)
+    is_disabled = models.BooleanField(default=False, verbose_name="Блокировка рассылки")
 
     def __str__(self):
         return f"{self.message} - {self.status} - {self.start_at} - {self.end_at}"
