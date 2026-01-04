@@ -357,11 +357,27 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class StatisticsSuccessView(LoginRequiredMixin, ListView):
+class MailingAttemptView(LoginRequiredMixin, ListView):
+    """CBV for mailing attempt"""
+
+    model = MailingAttempt
+    template_name = "mailing/mailing_attempt.html"
+    context_object_name = "mailing_attempts"
+
+    def get_queryset(self):
+
+        mailings_list = MailingAttempt.objects.all().order_by("-attempt_at")
+        if self.request.user.has_perm("mailing.view_mailing"):
+            return mailings_list
+        else:
+            return mailings_list.filter(mailing__message__author=self.request.user)
+
+
+class MailingAttemptSuccessView(LoginRequiredMixin, ListView):
     """CBV for mailing statistics"""
 
     model = MailingAttempt
-    template_name = "mailing/statistics_success.html"
+    template_name = "mailing/mailing_attempt_success.html"
     context_object_name = "mailing_attempts"
 
     def get_queryset(self):
@@ -373,11 +389,11 @@ class StatisticsSuccessView(LoginRequiredMixin, ListView):
             return success_mailings_list.filter(mailing__message__author=self.request.user)
 
 
-class StatisticsFailedView(LoginRequiredMixin, ListView):
+class MailingAttemptFailedView(LoginRequiredMixin, ListView):
     """CBV for mailing statistics"""
 
     model = MailingAttempt
-    template_name = "mailing/statistics_failed.html"
+    template_name = "mailing/mailing_attempt_failed.html"
     context_object_name = "mailing_attempts"
 
     def get_queryset(self):

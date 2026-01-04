@@ -1,17 +1,16 @@
-<!-- statistics_success.html -->
+<!-- mailing_attempt_success.html -->
 {% extends 'mailing/base.html' %}
 
 {% block title %}Statistics{% endblock %}
 
 {% block page_name %}
-    Статистика
+    Успешные попытки
 {% endblock %}
 
 {% block page_buttons %}
     <div class="btn-group me-2">
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:statistics' %}">Общая</a>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:statistics_success' %}">Успешные</a>
-        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:statistics_failed' %}">Не успешные</a>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_attempt' %}">Общая</a>
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_attempt_failed' %}">Не успешные</a>
     </div>
 {% endblock %}
 
