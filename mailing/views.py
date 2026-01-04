@@ -9,11 +9,12 @@ from django.views.generic.list import ListView, View
 from .forms import MailingForm, MessageForm, RecipientForm
 from .models import Mailing, Message, Recipients, MailingAttempt
 
-from django.shortcuts import redirect
-from .services import MailingServices
+from mailing.src.queries import MailingAppQueries
 
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
+
+from .src.mailing_handlers import SMTPMailingHandler
 
 
 class HomeView(TemplateView):
@@ -27,7 +28,7 @@ class HomeView(TemplateView):
         user = self.request.user
 
         if user.is_authenticated:
-            context = MailingServices.get_homa_page_data(context, user)
+            context = MailingAppQueries.get_homa_page_data(context, user)
 
         return context
 
@@ -222,7 +223,7 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
 
         if mailing_item.status == Mailing.LAUNCHED and mailing_item.message.author == self.request.user:
             # Use MailingServices start_mailing
-            status_message = MailingServices.start_mailing(mailing_item)
+            status_message = SMTPMailingHandler.start_mailing(mailing_item)
 
             return JsonResponse(
                 {
@@ -352,7 +353,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = MailingServices.get_statistics(context, user=self.request.user)
+        context = MailingAppQueries.get_statistics(context, user=self.request.user)
         return context
 
 

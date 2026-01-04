@@ -1,34 +1,13 @@
 from mailing.src.mailing_handlers import SMTPMailingHandler
 
-from .models import Mailing, MailingAttempt, Recipients
+from mailing.models import Mailing, MailingAttempt, Recipients
 from users.models import User
 from mailing.src.mailing_attempt_log import DBMailingAttemptSaver
 
 from django.db.models import Count
 
 
-class MailingServices:
-
-    @staticmethod
-    def start_mailing(mailing: Mailing) -> str:
-        mailing_sending = SMTPMailingHandler(mailing)
-        result = mailing_sending.send_mails()
-        if result == MailingAttempt.SUCCESS:
-            mailing_attempt_saver = DBMailingAttemptSaver(
-                mailing,
-                status=MailingAttempt.SUCCESS,
-            )
-            mailing_attempt_saver.save()
-            return "Рассылка запущена успешно"
-
-        else:
-            mailing_attempt_saver = DBMailingAttemptSaver(
-                mailing,
-                status=MailingAttempt.FAILED,
-                response=result,
-            )
-            mailing_attempt_saver.save()
-            return "Ошибка рассылки"
+class MailingAppQueries:
 
 
     @staticmethod
