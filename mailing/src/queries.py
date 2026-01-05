@@ -1,18 +1,14 @@
-from mailing.src.mailing_handlers import SMTPMailingHandler
-
 from mailing.models import Mailing, MailingAttempt, Recipients
 from users.models import User
-from mailing.src.mailing_attempt_log import DBMailingAttemptSaver
 
 from django.db.models import Count
 
 
 class MailingAppQueries:
-
+    """Class with queries to database for pages"""
 
     @staticmethod
-    def get_homa_page_data(context: dict, user: User) -> dict:
-
+    def get_homa_page_data(context: dict, user: User = None) -> dict:
         if user.has_perm("mailing.view_mailing"):
             context["Recipients_count"] = Recipients.objects.all().count()
             context["Mailings_count"] = Mailing.objects.all().count()
@@ -28,7 +24,6 @@ class MailingAppQueries:
             ).count()
 
         return context
-
 
     @staticmethod
     def get_statistics(context: dict, user: User) -> dict:

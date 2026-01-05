@@ -14,6 +14,8 @@ from .forms import UserRegistrationForm, UserUpdateForm, CustomChangePasswordFor
 from .models import User
 from .services import send_welcome_email
 
+from mailing.src.cache_decorators import get_cache_cotext_for_user, get_cache_queryset_for_user
+
 
 class UsersListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """CBV for users list"""
@@ -22,6 +24,7 @@ class UsersListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     context_object_name = "users"
     template_name = "users/users_list.html"
 
+    @get_cache_queryset_for_user("users_list")
     def get_queryset(self):
         return User.objects.all().filter(groups__name="Пользователь")
 

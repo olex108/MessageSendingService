@@ -16,19 +16,21 @@ from django.shortcuts import get_object_or_404, redirect
 
 from .src.mailing_handlers import SMTPMailingHandler
 
+from mailing.src.cache_decorators import get_cache_cotext_for_user, get_cache_queryset_for_user
+
 
 class HomeView(TemplateView):
     """CBV for home page"""
 
     template_name = "mailing/home.html"
 
+    @get_cache_cotext_for_user("home")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         user = self.request.user
 
         if user.is_authenticated:
-            context = MailingAppQueries.get_homa_page_data(context, user)
+            context = MailingAppQueries.get_homa_page_data(context, user = user)
 
         return context
 
@@ -40,6 +42,7 @@ class MessageListView(LoginRequiredMixin, ListView):
     template_name = "mailing/message_list.html"
     context_object_name = "messages"
 
+    @get_cache_queryset_for_user("message_list")
     def get_queryset(self):
         message_list = Message.objects.all().order_by("-updated_at")
         if self.request.user.has_perm("mailing.view_message"):
@@ -111,6 +114,7 @@ class RecipientsListView(LoginRequiredMixin, ListView):
     template_name = "mailing/recipients_list.html"
     context_object_name = "recipients"
 
+    @get_cache_queryset_for_user("recipients_list")
     def get_queryset(self):
         recipients_list = Recipients.objects.all().order_by("-full_name")
         if self.request.user.has_perm("mailing.view_recipients"):
@@ -182,6 +186,7 @@ class MailingListView(LoginRequiredMixin, ListView):
     template_name = "mailing/mailing_list.html"
     context_object_name = "mailings"
 
+    @get_cache_queryset_for_user("mailing_list")
     def get_queryset(self):
         """Method to get user mailing list. and update satus of user mailings"""
 
@@ -351,6 +356,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
 
     template_name = "mailing/statistics.html"
 
+    @get_cache_cotext_for_user("statistics")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = MailingAppQueries.get_statistics(context, user=self.request.user)
@@ -364,6 +370,7 @@ class MailingAttemptView(LoginRequiredMixin, ListView):
     template_name = "mailing/mailing_attempt.html"
     context_object_name = "mailing_attempts"
 
+    @get_cache_queryset_for_user("mailing_attempts")
     def get_queryset(self):
 
         mailings_list = MailingAttempt.objects.all().order_by("-attempt_at")
@@ -380,6 +387,7 @@ class MailingAttemptSuccessView(LoginRequiredMixin, ListView):
     template_name = "mailing/mailing_attempt_success.html"
     context_object_name = "mailing_attempts"
 
+    @get_cache_queryset_for_user("attempts_success")
     def get_queryset(self):
 
         success_mailings_list = MailingAttempt.objects.all().filter(status="SUCCESS").order_by("-attempt_at")
@@ -396,6 +404,7 @@ class MailingAttemptFailedView(LoginRequiredMixin, ListView):
     template_name = "mailing/mailing_attempt_failed.html"
     context_object_name = "mailing_attempts"
 
+    @get_cache_queryset_for_user("attempts_failed")
     def get_queryset(self):
 
         failed_mailings_list = MailingAttempt.objects.all().filter(status="FAILED").order_by("-attempt_at")
