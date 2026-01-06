@@ -1,0 +1,102 @@
+[
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 1,
+    "fields": {
+      "attempt_at": "2026-01-06T10:00:00",
+      "status": "SUCCESS",
+      "response": "",
+      "mailing": 20
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 2,
+    "fields": {
+      "attempt_at": "2025-11-05T12:30:00",
+      "status": "FAILED",
+      "response": "SMTP relay error",
+      "mailing": 21
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 3,
+    "fields": {
+      "attempt_at": "2025-12-12T09:00:00",
+      "status": "SUCCESS",
+      "response": "",
+      "mailing": 22
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 4,
+    "fields": {
+      "attempt_at": "2025-12-21T15:45:00",
+      "status": "FAILED",
+      "response": "Invalid email address",
+      "mailing": 23
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 5,
+    "fields": {
+      "attempt_at": "2026-01-09T10:15:00",
+      "status": "SUCCESS",
+      "response": "",
+      "mailing": 24
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 6,
+    "fields": {
+      "attempt_at": "2025-11-02T10:00:00",
+      "status": "SUCCESS",
+      "response": "",
+      "mailing": 30
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 7,
+    "fields": {
+      "attempt_at": "2025-11-16T12:00:00",
+      "status": "FAILED",
+      "response": "SMTP relay error",
+      "mailing": 31
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 8,
+    "fields": {
+      "attempt_at": "2025-12-03T11:30:00",
+      "status": "SUCCESS",
+      "response": "",
+      "mailing": 32
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 9,
+    "fields": {
+      "attempt_at": "2025-12-20T16:00:00",
+      "status": "FAILED",
+      "response": "Timeout error",
+      "mailing": 33
+    }
+  },
+  {
+    "model": "mailing.mailingattempt",
+    "pk": 10,
+    "fields": {
+      "attempt_at": "2026-01-02T10:30:00",
+      "status": "SUCCESS",
+      "response": "",
+      "mailing": 34
+    }
+  }
+]

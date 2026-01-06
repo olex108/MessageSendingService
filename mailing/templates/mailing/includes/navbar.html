@@ -1,0 +1,78 @@
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'mailing:home' %}">
+              <span data-feather="home"></span>
+              Главная
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mailing:message_list' %}">
+              <span data-feather="file"></span>
+              Сообщения
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mailing:recipients_list' %}">
+              <span data-feather="users"></span>
+              Получатели
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mailing:statistics' %}">
+              <span data-feather="bar-chart-2"></span>
+              Статистика
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mailing:mailing_list' %}">
+              <span data-feather="layers"></span>
+              Рассылки
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mailing:mailing_attempt' %}">
+              <span data-feather="layers"></span>
+              Попытки рассылок
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+
+        </h6>
+
+        <ul class="nav flex-column mb-2">
+
+        </ul>
+
+        <hr class="my-3">
+        <ul class="nav flex-column">
+          {% if "Менеджер" in request.user.groups.all|join:"," %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:user_detail' user.id %}">
+              <span data-feather="user"></span>
+                Менеджер
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:users_list' %}">
+              <span data-feather="users"></span>
+                Пользователи
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:user_detail' user.id %}">
+              <span data-feather="user"></span>
+                Пользователь
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+        {% endif %}
+
+      </div>
+    </nav>

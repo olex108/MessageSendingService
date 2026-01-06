@@ -1,0 +1,30 @@
+<!-- user_update.html -->
+
+{% extends 'mailing/base.html' %}
+
+{% block title %}Profile update{% endblock %}
+
+{% block page_name %}
+  {{ user.email }}
+{% endblock %}
+
+{% block page_buttons %}
+    <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:user_detail' user.id %}">Отменить</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+      <h2>Редактирование профиля</h2>
+      <form id="myForm" method="post" action="" class="form-floating">
+          {% csrf_token %}
+          {{ form.not_field_errors }}
+          {{ form.as_p }}
+          <div class="btn-group mt-4">
+              <button type="submit" class="p-2 bd-highlight btn btn-sm btn-primary">Сохранить</button>
+          </div>
+      </form>
+
+
+{% endblock %}

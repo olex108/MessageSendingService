@@ -1,0 +1,52 @@
+<!-- user_details.html -->
+{% extends 'mailing/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block page_name %}
+  {{ user.email }}
+{% endblock %}
+
+{% block page_buttons %}
+    <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:user_update' user.id %}">Редактировать</a>
+        <a class="btn btn-sm btn-outline-danger" href="#">Заблокировать</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+      <h2>Информация о пользователе</h2>
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <tbody>
+              <tr>
+                <td>Почта</td>
+                <td>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <td>Имя</td>
+                <td>{{ user.first_name }}</td>
+              </tr>
+              <tr>
+                <td>Фамилия</td>
+                <td>{{ user.last_name }}</td>
+              </tr>
+              <tr>
+                <td>Страна</td>
+                <td>{{ user.country }}</td>
+              </tr>
+              <tr>
+                <td>Телефон</td>
+                <td>{{ user.phone }}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="container mb-3">
+            <a class="btn btn-secondary" href="{% url 'users:user_password_change' user.id %}">Поменять пароль</a>
+        </div>
+
+{% endblock %}

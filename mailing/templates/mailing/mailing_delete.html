@@ -1,0 +1,22 @@
+<!-- mailing_delete.html -->
+{% extends 'mailing/base.html' %}
+
+{% block title %}Mailing delete{% endblock %}
+
+{% block page_name %}
+    <h1>Удаление рассылки {{ object.message.title }}</h1>
+{% endblock %}
+
+{% block page_buttons %}
+    <form id="myForm" method="post" action="" class="form-floating">
+        {% csrf_token %}
+        <div class="btn-group me-2">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'mailing:mailing_detail' object.id %}">Отменить</a>
+        <button type="submit" class="p-2 bd-highlight btn btn-sm btn-danger">Удалить</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
