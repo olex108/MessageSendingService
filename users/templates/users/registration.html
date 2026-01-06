@@ -1,0 +1,17 @@
+<!-- registration.html -->
+
+{% extends 'users/base.html' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+    <form id="myForm" method="post" action="" class="form-floating">
+        <img class="mb-4" src="/static/images/noroot.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+        {% csrf_token %}
+        {{ form.not_field_errors }}
+        {{ form.as_p }}
+        <button class="btn btn-primary w-100 py-2" type="submit">Зарегистрироватся</button>
+        <a href="{% url 'users:login'%}" class="btn btn-outline-secondary w-100 py-2 ">Вход</a>
+    </form>
+{% endblock %}

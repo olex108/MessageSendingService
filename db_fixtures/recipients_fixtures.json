@@ -1,0 +1,202 @@
+[
+  {
+    "model": "mailing.recipients",
+    "pk": 1,
+    "fields": {
+      "email": "user1@example.com",
+      "full_name": "Алексей Смирнов",
+      "comment": "Инженер",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 2,
+    "fields": {
+      "email": "user2@example.com",
+      "full_name": "Елена Кузнецова",
+      "comment": "Учитель",
+      "mailer": 1
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 3,
+    "fields": {
+      "email": "user3@example.com",
+      "full_name": "Дмитрий Иванов",
+      "comment": "Терапевт",
+      "mailer": 3
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 4,
+    "fields": {
+      "email": "user4@example.com",
+      "full_name": "Мария Павлова",
+      "comment": "Бухгалтер",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 5,
+    "fields": {
+      "email": "user5@example.com",
+      "full_name": "Игорь Соколов",
+      "comment": "Программист",
+      "mailer": 1
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 6,
+    "fields": {
+      "email": "user6@example.com",
+      "full_name": "Ольга Лебедева",
+      "comment": "Медсестра",
+      "mailer": 3
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 7,
+    "fields": {
+      "email": "user7@example.com",
+      "full_name": "Сергей Петров",
+      "comment": "Юрист",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 8,
+    "fields": {
+      "email": "user8@example.com",
+      "full_name": "Наталья Михайлова",
+      "comment": "Дизайнер",
+      "mailer": 3
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 9,
+    "fields": {
+      "email": "user9@example.com",
+      "full_name": "Владимир Гаврилов",
+      "comment": "Аналитик",
+      "mailer": 1
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 10,
+    "fields": {
+      "email": "user10@example.com",
+      "full_name": "Татьяна Фролова",
+      "comment": "Переводчик",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 11,
+    "fields": {
+      "email": "user11@example.com",
+      "full_name": "Андрей Карпов",
+      "comment": "Продавец",
+      "mailer": 3
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 12,
+    "fields": {
+      "email": "user12@example.com",
+      "full_name": "Светлана Новикова",
+      "comment": "Фотограф",
+      "mailer": 1
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 13,
+    "fields": {
+      "email": "user13@example.com",
+      "full_name": "Михаил Белов",
+      "comment": "Повар",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 14,
+    "fields": {
+      "email": "user14@example.com",
+      "full_name": "Юлия Воронкова",
+      "comment": "Артист",
+      "mailer": 3
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 15,
+    "fields": {
+      "email": "user15@example.com",
+      "full_name": "Павел Максимов",
+      "comment": "Механик",
+      "mailer": 1
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 16,
+    "fields": {
+      "email": "user16@example.com",
+      "full_name": "Людмила Егоровна",
+      "comment": "Учёный",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 17,
+    "fields": {
+      "email": "user17@example.com",
+      "full_name": "Роман Орлов",
+      "comment": "Журналист",
+      "mailer": 3
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 18,
+    "fields": {
+      "email": "user18@example.com",
+      "full_name": "Ирина Полякова",
+      "comment": "Менеджер",
+      "mailer": 1
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 19,
+    "fields": {
+      "email": "user19@example.com",
+      "full_name": "Борис Рыбаков",
+      "comment": "Строитель",
+      "mailer": 2
+    }
+  },
+  {
+    "model": "mailing.recipients",
+    "pk": 20,
+    "fields": {
+      "email": "user20@example.com",
+      "full_name": "Настасья Савельева",
+      "comment": "Писатель",
+      "mailer": 3
+    }
+  }
+]

@@ -1,0 +1,310 @@
+[
+  {
+    "model": "mailing.mailing",
+    "pk": 1,
+    "fields": {
+      "start_at": "2024-05-01T10:00:00",
+      "end_at": "2024-05-10T18:00:00",
+      "status": "CREATED",
+      "message": 3,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+  "model": "mailing.mailing",
+  "pk": 2,
+  "fields": {
+    "start_at": "2024-04-15T09:00:00",
+    "end_at": "2024-05-20T12:00:00",
+    "status": "LAUNCHED",
+    "message": 25,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 3,
+  "fields": {
+    "start_at": "2024-03-01T08:00:00",
+    "end_at": "2024-03-15T17:00:00",
+    "status": "COMPLETED",
+    "message": 8,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 5,
+  "fields": {
+    "start_at": "2024-03-10T10:30:00",
+    "end_at": "2024-07-01T09:00:00",
+    "status": "LAUNCHED",
+    "message": 22,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 4,
+  "fields": {
+    "start_at": "2024-06-01T14:00:00",
+    "end_at": "2024-06-30T20:00:00",
+    "status": "LAUNCHED",
+    "message": 34,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 14,
+  "fields": {
+    "start_at": "2025-12-10T09:00:00",
+    "end_at": "2025-12-25T17:00:00",
+    "status": "COMPLETED",
+    "message": 4,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 13,
+  "fields": {
+    "start_at": "2026-01-02T08:00:00",
+    "end_at": "2026-01-12T20:00:00",
+    "status": "CREATED",
+    "message": 25,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 12,
+  "fields": {
+    "start_at": "2025-12-25T11:00:00",
+    "end_at": "2025-12-30T12:00:00",
+    "status": "COMPLETED",
+    "message": 21,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 11,
+  "fields": {
+    "start_at": "2025-12-30T10:00:00",
+    "end_at": "2026-01-05T15:00:00",
+    "status": "LAUNCHED",
+    "message": 40,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 9,
+  "fields": {
+    "start_at": "2026-02-01T09:00:00",
+    "end_at": "2026-02-10T18:00:00",
+    "status": "CREATED",
+    "message": 35,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 8,
+  "fields": {
+    "start_at": "2025-11-10T10:00:00",
+    "end_at": "2025-12-10T20:00:00",
+    "status": "COMPLETED",
+    "message": 29,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 7,
+  "fields": {
+    "start_at": "2025-12-01T08:30:00",
+    "end_at": "2026-01-15T17:00:00",
+    "status": "LAUNCHED",
+    "message": 5,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+  "model": "mailing.mailing",
+  "pk": 6,
+  "fields": {
+    "start_at": "2026-01-10T09:00:00",
+    "end_at": "2026-01-20T18:00:00",
+    "status": "CREATED",
+    "message": 22,
+    "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  }
+},
+  {
+    "model": "mailing.mailing",
+    "pk": 20,
+    "fields": {
+      "start_at": "2026-01-05T09:00:00",
+      "end_at": "2026-01-15T18:00:00",
+      "status": "CREATED",
+      "message": 33,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 21,
+    "fields": {
+      "start_at": "2025-11-01T08:30:00",
+      "end_at": "2025-12-01T17:00:00",
+      "status": "COMPLETED",
+      "message": 9,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 22,
+    "fields": {
+      "start_at": "2025-12-10T10:00:00",
+      "end_at": "2025-12-20T20:00:00",
+      "status": "COMPLETED",
+      "message": 24,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 23,
+    "fields": {
+      "start_at": "2025-12-24T09:00:00",
+      "end_at": "2026-01-05T18:00:00",
+      "status": "LAUNCHED",
+      "message": 1,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 24,
+    "fields": {
+      "start_at": "2025-12-01T08:00:00",
+      "end_at": "2025-12-15T17:00:00",
+      "status": "COMPLETED",
+      "message": 21,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 25,
+    "fields": {
+      "start_at": "2026-02-01T09:00:00",
+      "end_at": "2026-02-10T18:00:00",
+      "status": "CREATED",
+      "message": 32,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 26,
+    "fields": {
+      "start_at": "2025-11-25T10:30:00",
+      "end_at": "2025-12-05T17:00:00",
+      "status": "COMPLETED",
+      "message": 23,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 27,
+    "fields": {
+      "start_at": "2025-12-30T10:00:00",
+      "end_at": "2026-01-10T18:00:00",
+      "status": "LAUNCHED",
+      "message": 38,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 28,
+    "fields": {
+      "start_at": "2025-11-15T09:00:00",
+      "end_at": "2025-11-30T17:00:00",
+      "status": "COMPLETED",
+      "message": 7,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 29,
+    "fields": {
+      "start_at": "2026-01-20T08:00:00",
+      "end_at": "2026-01-30T20:00:00",
+      "status": "CREATED",
+      "message": 40,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 30,
+    "fields": {
+      "start_at": "2025-11-01T09:00:00",
+      "end_at": "2025-11-10T18:00:00",
+      "status": "COMPLETED",
+      "message": 7,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 31,
+    "fields": {
+      "start_at": "2025-11-15T09:30:00",
+      "end_at": "2025-11-25T17:00:00",
+      "status": "COMPLETED",
+      "message": 25,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 32,
+    "fields": {
+      "start_at": "2025-12-01T10:00:00",
+      "end_at": "2025-12-10T19:00:00",
+      "status": "COMPLETED",
+      "message": 22,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 33,
+    "fields": {
+      "start_at": "2025-12-15T08:00:00",
+      "end_at": "2025-12-25T18:00:00",
+      "status": "COMPLETED",
+      "message": 28,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 34,
+    "fields": {
+      "start_at": "2025-12-28T09:00:00",
+      "end_at": "2026-01-07T17:00:00",
+      "status": "COMPLETED",
+      "message": 34,
+      "recipients": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    }
+  }
+]
