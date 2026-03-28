@@ -1,7 +1,7 @@
 from mailing.models import Mailing, MailingAttempt, Recipients
 from users.models import User
 
-from django.db.models import Count
+from django.db.models import Count, Q
 
 
 class MailingAppQueries:
@@ -28,18 +28,31 @@ class MailingAppQueries:
     @staticmethod
     def get_statistics(context: dict, user: User) -> dict:
         if user.has_perm("mailing.view_mailing"):
-            mailing_attempts_qs = MailingAttempt.objects.all()
-            success_mailing_attempts = mailing_attempts_qs.filter(status="SUCCESS")
-            context["Success_count"] = success_mailing_attempts.count()
-            context["Failed_count"] = mailing_attempts_qs.filter(status="FAILED").count()
-            context["Recipients_count"] = success_mailing_attempts.aggregate(total=Count('mailing__recipients'))['total']
+            stats = MailingAttempt.objects.aggregate(
+                success_count=Count('id', filter=Q(status="SUCCESS")),
+                failed_count=Count('id', filter=Q(status="FAILED")),
+                recipients_count=Count('mailing__recipients', filter=Q(status="SUCCESS"))
+            )
+
+            context["Success_count"] = stats['success_count']
+            context["Failed_count"] = stats['failed_count']
+            context["Recipients_count"] = stats['recipients_count']
 
         else:
-            user_mailing_attempts_qs = MailingAttempt.objects.all().filter(mailing__message__author=user)
-            user_success_mailing_attempts = user_mailing_attempts_qs.filter(status="SUCCESS")
-            context["Success_count"] = user_success_mailing_attempts.count()
-            context["Failed_count"] = user_mailing_attempts_qs.filter(status="FAILED").count()
-            context["Recipients_count"] = user_success_mailing_attempts.aggregate(total=Count('mailing__recipients'))[
-                'total']
+            # 1. Сначала делаем базовый QuerySet с фильтром по юзеру
+            base_qs = MailingAttempt.objects.filter(mailing__message__author=user)
+
+            # 2. Делаем ОДИН запрос к базе, который посчитает всё сразу
+            stats = base_qs.aggregate(
+                success_count=Count('id', filter=Q(status="SUCCESS")),
+                failed_count=Count('id', filter=Q(status="FAILED")),
+                # Считаем количество получателей только для успешных рассылок
+                recipients_count=Count('mailing__recipients', filter=Q(status="SUCCESS"))
+            )
+
+            # 3. Наполняем контекст (если aggregate вернет None, заменяем на 0)
+            context["Success_count"] = stats['success_count'] or 0
+            context["Failed_count"] = stats['failed_count'] or 0
+            context["Recipients_count"] = stats['recipients_count'] or 0
 
         return context

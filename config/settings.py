@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "bootstrap_datepicker_plus",
     "phonenumber_field",
     'widget_tweaks',
+    "debug_toolbar",
 
     "mailing",
     "users"
@@ -43,6 +44,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -131,7 +134,7 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 # Cache settings
-CACHE_ENABLED = True
+CACHE_ENABLED = False
 
 if CACHE_ENABLED:
     CACHES = {
@@ -140,3 +143,7 @@ if CACHE_ENABLED:
             "LOCATION": os.getenv("LOCATION"),
         }
     }
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
