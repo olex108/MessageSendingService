@@ -114,9 +114,9 @@ class RecipientsListView(LoginRequiredMixin, ListView):
     template_name = "mailing/recipients_list.html"
     context_object_name = "recipients"
 
-    @get_cache_queryset_for_user("recipients_list")
+    # @get_cache_queryset_for_user("recipients_list")
     def get_queryset(self):
-        recipients_list = Recipients.objects.all().order_by("-full_name")
+        recipients_list = Recipients.objects.all().select_related('mailer').order_by("-full_name")
         if self.request.user.has_perm("mailing.view_recipients"):
             return recipients_list
         else:
@@ -356,7 +356,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
 
     template_name = "mailing/statistics.html"
 
-    @get_cache_cotext_for_user("statistics")
+    # @get_cache_cotext_for_user("statistics")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = MailingAppQueries.get_statistics(context, user=self.request.user)
